@@ -34,15 +34,14 @@ public class OrderEntity {
     @NotNull
     private BigDecimal total;
 
-    @ManyToOne
-    @Nullable
-    private UserEntity user;
+
+    private Long user;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.RECEIVED;
 
     @OneToOne
-    private PaymentEntity payment;
+    private Long payment;
 
     @Deprecated
     public OrderEntity() {
@@ -52,7 +51,7 @@ public class OrderEntity {
         this.createdAt = order.getCreatedAt();
         this.updatedAt = order.getUpdatedAt();
         this.total = order.getTotal();
-        this.user = order.getPossibleUser().map(UserEntity::new).orElse(null);
+        this.user = order.getPossibleUser().map(UserEntity::new).orElse(null);//TODO como fazer aqui
         this.items = order.getItems().stream().map(item -> new OrderItemEntity(item, this)).collect(Collectors.toSet());
         this.payment = order.getPayment() != null ? new PaymentEntity(order.getPayment()) : null;
     }
@@ -75,9 +74,9 @@ public class OrderEntity {
                 createdAt,
                 updatedAt,
                 total,
-                Optional.ofNullable(user).map(UserEntity::toDomain).orElse(null),
+                Optional.ofNullable(user).map(UserEntity::toDomain).orElse(null),//TODO arrumar aqui
                 status,
-                payment.toDomain()
+                payment.toDomain()//TODO
         );
 
         final var orderItems = items.stream().map(item -> item.toDomain(order)).collect(Collectors.toSet());
