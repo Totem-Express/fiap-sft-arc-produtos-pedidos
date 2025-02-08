@@ -1,14 +1,13 @@
 package br.com.fiap.totem_express.infrastructure.product;
 
-import java.util.List;
-
+import br.com.fiap.totem_express.domain.product.Category;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import br.com.fiap.totem_express.domain.product.Category;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 //TODO: teste
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {

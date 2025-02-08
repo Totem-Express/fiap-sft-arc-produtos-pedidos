@@ -23,7 +23,7 @@ public class ApplicationUser {
         return Optional.empty();
     }
 
-    public static Optional<Long> retrieveUserId(){
+    public static Optional<String> retrieveUserId(){
         return extract(User::getId);
     }
 

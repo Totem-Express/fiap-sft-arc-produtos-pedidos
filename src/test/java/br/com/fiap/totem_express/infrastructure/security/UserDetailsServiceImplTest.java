@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import static br.com.fiap.totem_express.domain.user.Role.USER;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+//TODO ver como arrumar isso reparei que tá errado :S
 class UserDetailsServiceImplTest {
 
     private UserGateway userGateway;
@@ -30,8 +32,8 @@ class UserDetailsServiceImplTest {
     @Test
     void should_load_user_by_username() {
         String cpf = "114.974.750-15";
-        User user = new User(1L, "Gloria Maria", "gloriamaria@email.com", cpf, LocalDateTime.now(), USER);
-        when(userGateway.findByCPF(cpf)).thenReturn(Optional.of(user));
+        User user = new User("1L", "Gloria Maria", "gloriamaria@email.com", cpf, LocalDateTime.now(), USER);
+        when(userGateway.findById(cpf)).thenReturn(Optional.of(user));
 
         UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(cpf);
 
@@ -42,7 +44,7 @@ class UserDetailsServiceImplTest {
     @Test
     void should_throw_exception_when_user_not_found_by_username() {
         String cpf = "114.974.750-15";
-        when(userGateway.findByCPF(cpf)).thenReturn(Optional.empty());
+        when(userGateway.findById(cpf)).thenReturn(Optional.empty());
 
         var exception = assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername(cpf));
         assertThat(exception.getMessage()).isEqualTo("User not found");
@@ -50,7 +52,7 @@ class UserDetailsServiceImplTest {
 
     @Test
     void should_load_user_by_id() {
-        Long userId = 1L;
+        String userId = UUID.randomUUID().toString();
         User user = new User(userId, "Gloria Maria", "gloriamaria@email.com", "114.974.750-15", LocalDateTime.now(), USER);
         when(userGateway.findById(userId)).thenReturn(Optional.of(user));
 
@@ -62,7 +64,7 @@ class UserDetailsServiceImplTest {
 
     @Test
     void should_throw_exception_when_user_not_found_by_id() {
-        Long userId = 1L;
+        String userId = UUID.randomUUID().toString();
         when(userGateway.findById(userId)).thenReturn(Optional.empty());
 
         var exception = assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserById(userId));

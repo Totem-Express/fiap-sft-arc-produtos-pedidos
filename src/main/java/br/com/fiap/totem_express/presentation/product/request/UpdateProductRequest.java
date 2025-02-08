@@ -1,14 +1,14 @@
 package br.com.fiap.totem_express.presentation.product.request;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import br.com.fiap.totem_express.application.product.input.UpdateProductInput;
 import br.com.fiap.totem_express.domain.product.Category;
 import br.com.fiap.totem_express.domain.product.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 //TODO: teste
 public record UpdateProductRequest(

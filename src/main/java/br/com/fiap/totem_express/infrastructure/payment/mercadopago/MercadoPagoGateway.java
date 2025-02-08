@@ -2,7 +2,8 @@ package br.com.fiap.totem_express.infrastructure.payment.mercadopago;
 
 import br.com.fiap.totem_express.application.payment.PaymentProcessorGateway;
 import br.com.fiap.totem_express.application.payment.input.GenerateQRCodeInput;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.RequestEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 

@@ -14,7 +14,7 @@ public class ProcessPaymentWebhookUseCaseImpl implements ProcessPaymentWebhookUs
     }
 
     @Override
-    public void process(Long paymentId, PaymentWebhookInput input) {
+    public void process(String paymentId, PaymentWebhookInput input) {
         Payment payment = gateway.findById(paymentId)
                 .orElseThrow(() -> new IllegalArgumentException("Payment must exists invalid id " + paymentId));
 

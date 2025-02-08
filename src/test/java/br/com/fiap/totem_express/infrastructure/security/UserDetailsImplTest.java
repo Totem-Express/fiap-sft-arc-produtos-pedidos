@@ -19,7 +19,7 @@ class UserDetailsImplTest {
 
     @BeforeEach
     void setUp() {
-        user = new User(1L, "Gloria Maria", "gloriamaria@email.com", "114.974.750-15", LocalDateTime.now(), Role.USER);
+        user = new User("1L", "Gloria Maria", "gloriamaria@email.com", "114.974.750-15", LocalDateTime.now(), Role.USER);
         userDetails = new UserDetailsImpl(user);
     }
 

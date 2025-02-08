@@ -21,7 +21,7 @@ class OrderViewTest {
         BigDecimal total = BigDecimal.TEN;
         Status status = Status.PREPARING;
         Long id = 1L;
-        DefaultUserView userView = new DefaultUserView(1L, "John Doe");
+        DefaultUserView userView = new DefaultUserView("1L", "John Doe");
 
         OrderView orderView = new OrderView(createdAt, updatedAt, items, total, status, id, userView);
 

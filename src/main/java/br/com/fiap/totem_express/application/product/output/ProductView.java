@@ -1,8 +1,8 @@
 package br.com.fiap.totem_express.application.product.output;
 
-import java.math.BigDecimal;
-
 import br.com.fiap.totem_express.domain.product.Category;
+
+import java.math.BigDecimal;
 
 public interface ProductView {
 

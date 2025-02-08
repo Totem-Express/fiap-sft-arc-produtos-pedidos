@@ -23,7 +23,7 @@ public interface PaymentDocumentation {
             @ApiResponse(responseCode = "404", description = "Pagamento não encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do sistema")
     })
-    ResponseEntity<PaymentView> checkPaymentStatus(@PathVariable Long id);
+    ResponseEntity<PaymentView> checkPaymentStatus(@PathVariable String id);
 
     @Operation(summary = "Processa confirmação de pagamento", description = "Recebe a confirmação de pagamento via webhook")
     @ApiResponses({
@@ -32,5 +32,5 @@ public interface PaymentDocumentation {
             @ApiResponse(responseCode = "404", description = "Pagamento não encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do sistema")
     })
-    ResponseEntity<Void> processPayment(@PathVariable Long id, @RequestBody @Valid PaymentWebhookRequest input);
+    ResponseEntity<Void> processPayment(@PathVariable String id, @RequestBody @Valid PaymentWebhookRequest input);
 }

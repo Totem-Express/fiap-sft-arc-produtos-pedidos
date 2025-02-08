@@ -11,15 +11,15 @@ class JWTServiceTest {
     @Test
     void should_return_empty_if_secret_does_not_match() {
         JWTService secret = new JWTService("secret");
-        String token = JWT.create().withClaim("user", 42L).sign(Algorithm.HMAC256("anothersecret"));
+        String token = JWT.create().withClaim("user", "42L").sign(Algorithm.HMAC256("anothersecret"));
         assertThat(secret.getUserFromToken(token)).isEmpty();
     }
 
     @Test
     void should_return_user_id() {
         JWTService secret = new JWTService("secret");
-        String token = JWT.create().withClaim("user", 42L).sign(Algorithm.HMAC256("secret"));
-        assertThat(secret.getUserFromToken(token)).contains(42L);
+        String token = JWT.create().withClaim("user", "42L").sign(Algorithm.HMAC256("secret"));
+        assertThat(secret.getUserFromToken(token)).contains("42L");
     }
 
     @Test

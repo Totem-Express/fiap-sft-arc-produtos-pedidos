@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface PaymentGateway {
 
-    Optional<Payment> findById(Long id);
+    Optional<Payment> findById(String id);
 
     Payment create(Payment payment);
 }

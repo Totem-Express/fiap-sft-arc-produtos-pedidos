@@ -13,23 +13,22 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+//TODO arrumar esses testes
 class PaymentGatewayImplTest {
 
-    private PaymentRepository repository;
-    private PaymentGatewayImpl paymentGateway;
+    private PaymentGatewayHTTPImpl paymentGateway;
 
     @BeforeEach
     void setUp() {
-        repository = mock(PaymentRepository.class);
-        paymentGateway = new PaymentGatewayImpl(repository);
+        paymentGateway = new PaymentGatewayHTTPImpl();
     }
 
     @Test
     void should_find_payment_by_id() {
-        Payment payment = new Payment(1L, null, null, Status.PENDING, "transactionId", new BigDecimal("100.00"), "qrCode");
-        when(repository.findById(1L)).thenReturn(Optional.of(new PaymentEntity(payment)));
+        Payment payment = new Payment("1L", null, null, Status.PENDING, "transactionId", new BigDecimal("100.00"), "qrCode");
+//        when(repository.findById(1L)).thenReturn(Optional.of(new PaymentEntity(payment)));
 
-        Optional<Payment> result = paymentGateway.findById(1L);
+        Optional<Payment> result = paymentGateway.findById("1L");
 
         assertThat(result.get().getTransactionId()).isEqualTo(payment.getTransactionId());
         assertThat(result.get().getAmount()).isEqualTo(payment.getAmount());
@@ -38,8 +37,6 @@ class PaymentGatewayImplTest {
     @Test
     void should_create_payment() {
         Payment payment = new Payment(new BigDecimal("100.00"));
-        PaymentEntity paymentEntity = new PaymentEntity(payment);
-        when(repository.save(any(PaymentEntity.class))).thenReturn(paymentEntity);
 
         Payment result = paymentGateway.create(payment);
 

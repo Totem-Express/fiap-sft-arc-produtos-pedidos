@@ -1,16 +1,16 @@
 package br.com.fiap.totem_express.application.product.impl;
 
-import java.util.List;
-
-import static br.com.fiap.totem_express.shared.invariant.Rule.notNull;
-import static java.util.stream.Collectors.toList;
-
 import br.com.fiap.totem_express.application.product.FindProductsByCategoryUseCase;
 import br.com.fiap.totem_express.application.product.ProductGateway;
 import br.com.fiap.totem_express.application.product.output.ProductView;
 import br.com.fiap.totem_express.domain.product.Category;
 import br.com.fiap.totem_express.domain.product.Product;
 import br.com.fiap.totem_express.shared.invariant.Invariant;
+
+import java.util.List;
+
+import static br.com.fiap.totem_express.shared.invariant.Rule.notNull;
+import static java.util.stream.Collectors.toList;
 
 
 public class FindProductsByCategoryUseCaseImpl implements FindProductsByCategoryUseCase {

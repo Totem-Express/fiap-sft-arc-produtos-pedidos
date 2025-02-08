@@ -16,14 +16,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         return gateway
-                .findByCPF(cpf)
+                .findById(id)
                 .map(UserDetailsImpl::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
+    public UserDetails loadUserById(String id) throws UsernameNotFoundException {
         return gateway.findById(id).map(UserDetailsImpl::new).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

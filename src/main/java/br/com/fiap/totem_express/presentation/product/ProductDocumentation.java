@@ -1,22 +1,22 @@
 package br.com.fiap.totem_express.presentation.product;
 
-import java.util.List;
-
 import br.com.fiap.totem_express.application.product.output.ProductView;
-import br.com.fiap.totem_express.presentation.errors.BadRequestError;
 import br.com.fiap.totem_express.presentation.errors.NotFoundError;
+import br.com.fiap.totem_express.presentation.product.request.CreateProductRequest;
+import br.com.fiap.totem_express.presentation.product.request.UpdateProductRequest;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.*;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-
-import br.com.fiap.totem_express.presentation.product.request.CreateProductRequest;
-import br.com.fiap.totem_express.presentation.product.request.UpdateProductRequest;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @Tag(name = "Produto", description = "API de produtos")
 public interface ProductDocumentation {

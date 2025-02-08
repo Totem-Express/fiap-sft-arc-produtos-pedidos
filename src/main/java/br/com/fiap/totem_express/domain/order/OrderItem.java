@@ -1,10 +1,10 @@
 package br.com.fiap.totem_express.domain.order;
 
+import br.com.fiap.totem_express.domain.product.Product;
+import br.com.fiap.totem_express.infrastructure.product.ProductEntity;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
-import br.com.fiap.totem_express.domain.product.Product;
-import br.com.fiap.totem_express.infrastructure.product.*;
 
 public class OrderItem {
     private Long id;

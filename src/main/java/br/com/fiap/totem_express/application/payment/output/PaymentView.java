@@ -4,12 +4,12 @@ import br.com.fiap.totem_express.domain.payment.Status;
 
 public interface PaymentView {
 
-    Long id();
+    String id();
 
     Status status();
 
     String qrCode();
 
-    record SimpleView(Long id, Status status, String qrCode) implements PaymentView {
+    record SimpleView(String id, Status status, String qrCode) implements PaymentView {
     }
 }

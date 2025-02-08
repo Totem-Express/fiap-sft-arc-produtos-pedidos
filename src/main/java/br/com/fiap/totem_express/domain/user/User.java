@@ -13,7 +13,7 @@ public class User {
     private CPF cpf;
     private LocalDateTime createdAt = LocalDateTime.now();
     private Role role;
-    private Long id;
+    private String id;
 
     public User(String name, String email, String cpf, Role role) {
         Invariant.of(name, notBlank("User name must be not blank"));
@@ -31,7 +31,7 @@ public class User {
         this(name, email, cpf, Role.USER);
     }
 
-    public User(Long id, String name, String email, String cpf, LocalDateTime createdAt, Role role) {
+    public User(String id, String name, String email, String cpf, LocalDateTime createdAt, Role role) {
         this(name, email, cpf, role);
         Invariant.of(id, notNull("User id must be not null"));
         Invariant.of(createdAt, notNull("User created at must be not null"));
@@ -40,7 +40,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

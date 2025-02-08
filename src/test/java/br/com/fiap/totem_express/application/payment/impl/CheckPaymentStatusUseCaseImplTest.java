@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import static br.com.fiap.totem_express.domain.payment.Status.PAID;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +32,7 @@ class CheckPaymentStatusUseCaseImplTest {
 
     @Test
     void should_return_payment_view_when_payment_exists() {
-        Long paymentId = 1L;
+        String paymentId = UUID.randomUUID().toString();
         Payment payment = new Payment(
                 paymentId,
                 LocalDateTime.now(),
@@ -52,7 +53,7 @@ class CheckPaymentStatusUseCaseImplTest {
 
     @Test
     void should_return_http_404_when_payment_does_not_exist() {
-        Long paymentId = 1L;
+        String paymentId = UUID.randomUUID().toString();
         when(gateway.findById(paymentId)).thenReturn(Optional.empty());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->

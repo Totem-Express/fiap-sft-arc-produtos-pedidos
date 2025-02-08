@@ -1,12 +1,14 @@
 package br.com.fiap.totem_express.infrastructure.order;
 
-import br.com.fiap.totem_express.domain.order.*;
-import br.com.fiap.totem_express.infrastructure.product.*;
+import br.com.fiap.totem_express.domain.order.Order;
+import br.com.fiap.totem_express.domain.order.OrderItem;
+import br.com.fiap.totem_express.infrastructure.product.ProductEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
-import java.math.*;
-import java.time.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 //TODO: teste
 @Entity(name = "order_item")

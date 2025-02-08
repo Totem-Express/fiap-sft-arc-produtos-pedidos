@@ -1,21 +1,20 @@
 package br.com.fiap.totem_express.presentation.product;
 
-import java.util.List;
-import java.util.Optional;
-
-import br.com.fiap.totem_express.application.product.output.ProductView;
-import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import br.com.fiap.totem_express.application.product.CreateProductUseCase;
 import br.com.fiap.totem_express.application.product.DeleteProductUseCase;
 import br.com.fiap.totem_express.application.product.FindProductsByCategoryUseCase;
 import br.com.fiap.totem_express.application.product.UpdateProductUseCase;
+import br.com.fiap.totem_express.application.product.output.ProductView;
 import br.com.fiap.totem_express.domain.product.Category;
 import br.com.fiap.totem_express.presentation.product.request.CreateProductRequest;
 import br.com.fiap.totem_express.presentation.product.request.UpdateProductRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProductController implements ProductDocumentation {

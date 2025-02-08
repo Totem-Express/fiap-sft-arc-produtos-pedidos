@@ -22,7 +22,7 @@ public class PaymentController implements PaymentDocumentation {
 
     @Override
     @GetMapping("/api/payment/{id}")
-    public ResponseEntity<PaymentView> checkPaymentStatus(@PathVariable Long id) {
+    public ResponseEntity<PaymentView> checkPaymentStatus(@PathVariable String id) {
         PaymentView check = checkPaymentStatusUseCase.checkStatus(id);
         return ResponseEntity.ok(check);
     }
@@ -30,7 +30,7 @@ public class PaymentController implements PaymentDocumentation {
     @Override
     @Transactional
     @PostMapping("/api/payment/process/{id}")
-    public ResponseEntity<Void> processPayment(Long id, @RequestBody @Valid PaymentWebhookRequest input) {
+    public ResponseEntity<Void> processPayment(String id, @RequestBody @Valid PaymentWebhookRequest input) {
         processPaymentWebhookUseCase.process(id, input);
         return ResponseEntity.ok().build();
     }

@@ -2,7 +2,7 @@ package br.com.fiap.totem_express.application.order.output;
 
 import br.com.fiap.totem_express.domain.order.OrderItem;
 
-import java.math.*;
+import java.math.BigDecimal;
 
 public record OrderItemView(String name, Long quantity, BigDecimal price) {
     public OrderItemView(OrderItem item) {

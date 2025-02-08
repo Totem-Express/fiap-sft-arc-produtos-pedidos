@@ -44,7 +44,7 @@ class CreateOrderUseCaseImplTest {
         Product product = new Product(1L, "Product 1", "Description 1", "image.png", BigDecimal.valueOf(10.0), Category.DISH);
         Order order = new Order(Set.of(new OrderItem(1L, LocalDateTime.now(), new ProductEntity(product), 1L)), empty());
         ReflectionTestUtils.setField(order, "id", 1L);
-        order.setPayment(new Payment(BigDecimal.valueOf(10.0)));
+        order.setPayment("PAYMENT_ID");//TODO depois ver como fazer direitinho
 
         when(productGateway.findById(1L)).thenReturn(Optional.of(product));
         when(orderGateway.create(any(Order.class))).thenReturn(order);

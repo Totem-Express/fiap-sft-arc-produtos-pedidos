@@ -1,17 +1,16 @@
 package br.com.fiap.totem_express.infrastructure.order;
 
-import br.com.fiap.totem_express.domain.order.*;
-import br.com.fiap.totem_express.domain.user.*;
-import br.com.fiap.totem_express.infrastructure.payment.PaymentEntity;
-import br.com.fiap.totem_express.infrastructure.user.*;
-import jakarta.annotation.*;
+import br.com.fiap.totem_express.domain.order.Order;
+import br.com.fiap.totem_express.domain.order.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-import java.math.*;
-import java.time.*;
-import java.util.*;
-import java.util.stream.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 //TODO: teste
 @Entity(name = "orders")
@@ -35,13 +34,12 @@ public class OrderEntity {
     private BigDecimal total;
 
 
-    private Long user;
+    private String user;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.RECEIVED;
 
-    @OneToOne
-    private Long payment;
+    private String payment;
 
     @Deprecated
     public OrderEntity() {
@@ -51,9 +49,9 @@ public class OrderEntity {
         this.createdAt = order.getCreatedAt();
         this.updatedAt = order.getUpdatedAt();
         this.total = order.getTotal();
-        this.user = order.getPossibleUser().map(UserEntity::new).orElse(null);//TODO como fazer aqui
+        this.user = order.getPossibleUser().orElse(null);
         this.items = order.getItems().stream().map(item -> new OrderItemEntity(item, this)).collect(Collectors.toSet());
-        this.payment = order.getPayment() != null ? new PaymentEntity(order.getPayment()) : null;
+        this.payment = order.getPayment();
     }
 
     public void setId(Long id) {
@@ -74,9 +72,9 @@ public class OrderEntity {
                 createdAt,
                 updatedAt,
                 total,
-                Optional.ofNullable(user).map(UserEntity::toDomain).orElse(null),//TODO arrumar aqui
+                user,
                 status,
-                payment.toDomain()//TODO
+                payment
         );
 
         final var orderItems = items.stream().map(item -> item.toDomain(order)).collect(Collectors.toSet());

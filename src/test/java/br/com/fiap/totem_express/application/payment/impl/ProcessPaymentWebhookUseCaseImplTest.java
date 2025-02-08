@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import static br.com.fiap.totem_express.domain.payment.Status.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +32,7 @@ class ProcessPaymentWebhookUseCaseImplTest {
 
     @Test
     void should_process_payment_for_paid_when_payment_exists() {
-        Long paymentId = 1L;
+        String paymentId = UUID.randomUUID().toString();
         Payment payment = new Payment(
                 paymentId,
                 LocalDateTime.now(),
@@ -52,7 +53,7 @@ class ProcessPaymentWebhookUseCaseImplTest {
 
     @Test
     void should_return_exception_when_payment_does_not_exist() {
-        Long paymentId = 1L;
+        String paymentId = UUID.randomUUID().toString();
         PaymentWebhookInput input = new PaymentWebhookRequest(paymentId, PENDING);
 
         when(gateway.findById(paymentId)).thenReturn(Optional.empty());

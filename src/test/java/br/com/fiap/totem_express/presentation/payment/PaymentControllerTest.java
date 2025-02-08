@@ -17,6 +17,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
 import static br.com.fiap.totem_express.domain.payment.Status.FAILED;
 import static br.com.fiap.totem_express.domain.payment.Status.PAID;
 
@@ -47,7 +49,7 @@ class PaymentControllerTest {
 
     @Test
     void should_return_http_200_and_payment_view_when_payment_exists() throws Exception {
-        Long paymentId = 1L;
+        String paymentId = UUID.randomUUID().toString();
         var expectedView = new PaymentView.SimpleView(paymentId, PAID, "qrcode-data");
 
         when(checkPaymentStatusUseCase.checkStatus(paymentId)).thenReturn(expectedView);
@@ -63,7 +65,7 @@ class PaymentControllerTest {
 
     @Test
     void should_return_http_404_when_payment_does_not_exist() throws Exception {
-        Long paymentId = 1L;
+        String paymentId = UUID.randomUUID().toString();
 
         doThrow(new IllegalArgumentException("Payment must exist invalid id " + paymentId)).when(checkPaymentStatusUseCase).checkStatus(paymentId);
 
@@ -73,7 +75,7 @@ class PaymentControllerTest {
 
     @Test
     void should_return_http_200_when_payment_is_processed_successfully() throws Exception {
-        Long paymentId = 1L;
+        String paymentId = UUID.randomUUID().toString();
         var request = new PaymentWebhookRequest(paymentId, PAID);
 
         doNothing().when(processPaymentWebhookUseCase).process(paymentId, request);
@@ -87,7 +89,7 @@ class PaymentControllerTest {
 
     @Test
     void should_return_http_404_when_payment_does_not_exist_during_processing() throws Exception {
-        Long paymentId = 1L;
+        String paymentId = UUID.randomUUID().toString();
 
         var request = new PaymentWebhookRequest(paymentId, FAILED);
 

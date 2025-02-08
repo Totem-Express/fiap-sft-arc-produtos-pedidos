@@ -56,7 +56,7 @@ class ApplicationUserTest {
 
     @Test
     void should_return_user_when_authentication_is_valid() {
-        User user = new User(1L, "Brad Pitt", "bradpitt@email.com", "114.974.750-15", LocalDateTime.now(), ADMIN);
+        User user = new User("1L", "Brad Pitt", "bradpitt@email.com", "114.974.750-15", LocalDateTime.now(), ADMIN);
         when(userDetails.user()).thenReturn(user);
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, null);
 
@@ -73,7 +73,7 @@ class ApplicationUserTest {
 
     @Test
     void should_return_user_id_when_authentication_is_valid() {
-        User user = new User(1L, "Brad Pitt", "bradpitt@email.com", "114.974.750-15", LocalDateTime.now(), ADMIN);
+        User user = new User("1L", "Brad Pitt", "bradpitt@email.com", "114.974.750-15", LocalDateTime.now(), ADMIN);
         when(userDetails.user()).thenReturn(user);
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, null);
 
@@ -81,7 +81,7 @@ class ApplicationUserTest {
             mockedSecurityContextHolder.when(SecurityContextHolder::getContext).thenReturn(securityContext);
             when(securityContext.getAuthentication()).thenReturn(auth);
 
-            Optional<Long> result = ApplicationUser.retrieveUserId();
+            Optional<String> result = ApplicationUser.retrieveUserId();
 
             assertThat(result).isPresent();
             assertThat(result.get()).isEqualTo(user.getId());

@@ -1,13 +1,13 @@
 package br.com.fiap.totem_express.domain.order;
 
+import br.com.fiap.totem_express.shared.invariant.Invariant;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
-
-import br.com.fiap.totem_express.domain.payment.Payment;
-import br.com.fiap.totem_express.domain.user.User;
-import br.com.fiap.totem_express.shared.invariant.Invariant;
 
 import static br.com.fiap.totem_express.shared.invariant.Rule.notEmpty;
 import static br.com.fiap.totem_express.shared.invariant.Rule.notNull;
@@ -19,11 +19,11 @@ public class Order {
     private LocalDateTime updatedAt = LocalDateTime.now();
     private Set<OrderItem> items = new HashSet<>();
     private BigDecimal total = BigDecimal.ZERO;
-    private User user;
+    private String user;
     private Status status = Status.RECEIVED;
-    private Payment payment;
+    private String payment;
 
-    public Order(Long id, LocalDateTime createdAt, LocalDateTime updatedAt, BigDecimal total, User user, Status status, Payment payment) {
+    public Order(Long id, LocalDateTime createdAt, LocalDateTime updatedAt, BigDecimal total, String user, Status status, String payment) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -34,7 +34,7 @@ public class Order {
         this.setTotal(items);
     }
 
-    public Order(LocalDateTime createdAt, LocalDateTime updatedAt, Set<OrderItem> items, User user) {
+    public Order(LocalDateTime createdAt, LocalDateTime updatedAt, Set<OrderItem> items, String user) {
         Invariant.of(createdAt, notNull("Order created at must be not null"));
         Invariant.of(updatedAt, notNull("Order updated at must be not null"));
         Invariant.of(items, notNull("Order item must be be not empty") ,notEmpty("Order item must be be not empty"));
@@ -47,7 +47,7 @@ public class Order {
     }
 
 
-    public Order(Set<OrderItem> orderItemsDomain, Optional<User> user) {
+    public Order(Set<OrderItem> orderItemsDomain, Optional<String> user) {
         this.user = user.orElse(null);
         orderItemsDomain.forEach(oi -> oi.setOrder(this));
         this.items = orderItemsDomain;
@@ -74,7 +74,7 @@ public class Order {
         return total;
     }
 
-    public Optional<User> getPossibleUser() {
+    public Optional<String> getPossibleUser() {
         return Optional.ofNullable(user);
     }
 
@@ -82,17 +82,14 @@ public class Order {
         return status;
     }
 
-    public Payment getPayment() {
+    public String getPayment() {
         return payment;
     }
 
-    public void setPayment(Payment payment) {
+    public void setPayment(String payment) {
         this.payment = payment;
     }
 
-    public String getPaymentTransactionId() {
-        return payment.getTransactionId();
-    }
 
     public String getProductName() {
         return items.stream().map(OrderItem::getProductName).collect(Collectors.toSet()).toString();

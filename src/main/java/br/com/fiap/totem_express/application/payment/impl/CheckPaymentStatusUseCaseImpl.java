@@ -14,7 +14,7 @@ public class CheckPaymentStatusUseCaseImpl implements CheckPaymentStatusUseCase 
     }
 
     @Override
-    public PaymentView checkStatus(Long paymentId) {
+    public PaymentView checkStatus(String paymentId) {
         Payment payment = gateway.findById(paymentId)
                 .orElseThrow(() -> new IllegalArgumentException("Payment must exists invalid id " + paymentId));
         return new PaymentView.SimpleView(payment.getId(), payment.getStatus(), payment.getQrCode());
