@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-//TODO: teste
+
 public record UpdateProductRequest(
         @NotNull Long id,
         @NotBlank String name,

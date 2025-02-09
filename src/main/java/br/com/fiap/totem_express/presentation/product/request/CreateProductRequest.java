@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
-//TODO: teste
 public record CreateProductRequest(
         @NotBlank String name,
         @NotBlank String description,
