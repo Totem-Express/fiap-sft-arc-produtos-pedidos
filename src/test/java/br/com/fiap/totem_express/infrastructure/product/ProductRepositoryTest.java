@@ -4,11 +4,10 @@ import br.com.fiap.totem_express.TestcontainersConfiguration;
 import br.com.fiap.totem_express.domain.product.Category;
 import br.com.fiap.totem_express.domain.product.Product;
 import br.com.fiap.totem_express.presentation.product.request.CreateProductRequest;
-import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import org.springframework.context.annotation.Import;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +23,11 @@ class ProductRepositoryTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @BeforeEach
+    void setUp() {
+        productRepository.deleteAll();
+    }
 
     @Test
     @Transactional
