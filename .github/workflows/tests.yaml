@@ -46,6 +46,9 @@ jobs:
         badges-directory: badges
         generate-branches-badge: true
         generate-summary: true
+        on-missing-report: 'fail'
+        fail-if-coverage-less-than: '80'
+        fail-if-branches-less-than: '80'
 
     - name: Log coverage percentages to workflow output
       run: |
