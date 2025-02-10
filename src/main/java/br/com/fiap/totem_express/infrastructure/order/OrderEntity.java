@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-//TODO: teste
 @Entity(name = "orders")
 public class OrderEntity {
 
@@ -52,6 +51,7 @@ public class OrderEntity {
         this.user = order.getPossibleUser().orElse(null);
         this.items = order.getItems().stream().map(item -> new OrderItemEntity(item, this)).collect(Collectors.toSet());
         this.payment = order.getPayment();
+        this.id = order.getId();
     }
 
     public void setId(Long id) {
@@ -82,5 +82,9 @@ public class OrderEntity {
         order.setItems(orderItems);
 
         return order;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

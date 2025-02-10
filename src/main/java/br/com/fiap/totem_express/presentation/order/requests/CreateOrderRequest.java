@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-//TODO: teste
 public record CreateOrderRequest(
         Set<OrderItemRequest> orderItemsRequest,
         Optional<String> possibleUserId
