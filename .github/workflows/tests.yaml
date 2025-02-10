@@ -29,3 +29,8 @@ jobs:
 
     - name: Run tests
       run: ./mvnw verify
+
+    - name: Generate JaCoCo Badge
+      uses: cicirello/jacoco-badge-generator@v2
+      with:
+        generate-branches-badge: true
