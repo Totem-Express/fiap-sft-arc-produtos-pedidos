@@ -18,9 +18,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withResourceNotFound;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
 
 @RestClientTest({UserGatewayImpl.class, CommonConfiguration.class, UserConfiguration.class})
@@ -42,6 +42,21 @@ class UserGatewayImplTest {
         mockServer.expect(requestTo("http://localhost:8082/api/"+uuid)).andRespond(withSuccess());
         boolean exists = userGateway.existsById(uuid);
         assertThat(exists).isTrue();
+    }
+
+    @Test
+    void should_return_false_if_user_does_not_exists() {
+        String uuid = UUID.randomUUID().toString();
+        mockServer.expect(requestTo("http://localhost:8082/api/"+uuid)).andRespond(withResourceNotFound());
+        boolean exists = userGateway.existsById(uuid);
+        assertThat(exists).isFalse();
+    }
+
+    @Test
+    void should_throw_exception_for_any_other_status() {
+        String uuid = UUID.randomUUID().toString();
+        mockServer.expect(requestTo("http://localhost:8082/api/"+uuid)).andRespond(withBadGateway());
+        assertThatThrownBy(() -> userGateway.existsById(uuid)).isInstanceOfAny(RuntimeException.class).hasMessageContaining("Problem communicating with user service");
     }
 
     @Test
