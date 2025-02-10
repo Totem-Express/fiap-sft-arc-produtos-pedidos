@@ -19,17 +19,21 @@ public class ProcessPaymentWebhookUseCaseImpl implements ProcessPaymentWebhookUs
 
     @Override
     public void process(String paymentId, PaymentWebhookInput input) {
-        Order order = orderGateway.findByPaymentId(paymentId).orElseThrow(() ->new InvariantException("Order not found"));
-        paymentGateway.findById(paymentId).orElseThrow(() ->new InvariantException("Payment not found in gateway"));
+        Order order = orderGateway.findByPaymentId(paymentId).orElseThrow(() ->new IllegalStateException("Order not found"));
+        paymentGateway.findById(paymentId).orElseThrow(() ->new IllegalStateException("Payment not found in gateway"));
 
         switch (input.status()){
             case PENDING -> {
             }
-            case PAID -> order.goToNextStep();
-            case FAILED -> order.failed();
+            case PAID -> {
+                order.goToNextStep();
+                orderGateway.changeStatus(order);
+            }
+            case FAILED ->{
+                order.failed();
+                orderGateway.changeStatus(order);
+            }
         }
-        orderGateway.changeStatus(order);
-
 
     }
 }

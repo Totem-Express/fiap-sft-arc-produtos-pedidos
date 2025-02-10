@@ -3,6 +3,7 @@ package br.com.fiap.totem_express.application.payment.impl;
 import br.com.fiap.totem_express.application.order.OrderGateway;
 import br.com.fiap.totem_express.application.payment.PaymentGateway;
 import br.com.fiap.totem_express.application.payment.input.PaymentWebhookInput;
+import br.com.fiap.totem_express.domain.order.Order;
 import br.com.fiap.totem_express.domain.payment.Payment;
 import br.com.fiap.totem_express.presentation.payment.request.PaymentWebhookRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,10 +15,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static br.com.fiap.totem_express.domain.payment.Status.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class ProcessPaymentWebhookUseCaseImplTest {
 
@@ -34,37 +34,56 @@ class ProcessPaymentWebhookUseCaseImplTest {
     }
 
     @Test
-    void should_process_payment_for_paid_when_payment_exists() {
+    void should_throw_illegal_state_exception_when_order_not_exists() {
         String paymentId = UUID.randomUUID().toString();
-        Payment payment = new Payment(
-                paymentId,
-                LocalDateTime.now(),
-                LocalDateTime.now(),
-                PENDING,
-                "TXN123",
-                new BigDecimal("100.00"),
-                "QRCode123");
-
-        when(paymentGateway.findById(paymentId)).thenReturn(Optional.of(payment));
-
-        PaymentWebhookInput input = new PaymentWebhookRequest(paymentId, PAID);
-
-        useCase.process(paymentId, input);
-
-        assertThat(payment.getStatus()).isEqualTo(PAID);
+        when(orderGateway.findByPaymentId(paymentId)).thenReturn(Optional.empty());
+        assertThatIllegalStateException().isThrownBy(() -> useCase.process(paymentId, mock(PaymentWebhookInput.class)));
     }
 
     @Test
-    void should_return_exception_when_payment_does_not_exist() {
+    void should_throw_illegal_state_exception_when_payment_not_exists() {
         String paymentId = UUID.randomUUID().toString();
-        PaymentWebhookInput input = new PaymentWebhookRequest(paymentId, PENDING);
-
+        when(orderGateway.findByPaymentId(paymentId)).thenReturn(Optional.of(mock(Order.class)));
         when(paymentGateway.findById(paymentId)).thenReturn(Optional.empty());
+        assertThatIllegalStateException().isThrownBy(() -> useCase.process(paymentId, mock(PaymentWebhookInput.class)));
+    }
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                useCase.process(paymentId, input)
-        );
+    @Test
+    void should_do_nothing_when_payment_is_pending() {
+        String paymentId = UUID.randomUUID().toString();
+        Order order = mock(Order.class);
+        when(orderGateway.findByPaymentId(paymentId)).thenReturn(Optional.of(order));
+        when(paymentGateway.findById(paymentId)).thenReturn(Optional.of(mock(Payment.class)));
+        PaymentWebhookInput paymentWebhookInput = mock(PaymentWebhookInput.class);
+        when(paymentWebhookInput.status()).thenReturn(PENDING);
+        useCase.process(paymentId, paymentWebhookInput);
+        verifyNoInteractions(order);
+        verify(orderGateway, never()).changeStatus(order);
+    }
 
-        assertThat(exception.getMessage()).isEqualTo("Payment must exists invalid id " + paymentId);
+    @Test
+    void should_go_to_next_status_when_payment_is_paid() {
+        String paymentId = UUID.randomUUID().toString();
+        Order order = mock(Order.class);
+        when(orderGateway.findByPaymentId(paymentId)).thenReturn(Optional.of(order));
+        when(paymentGateway.findById(paymentId)).thenReturn(Optional.of(mock(Payment.class)));
+        PaymentWebhookInput paymentWebhookInput = mock(PaymentWebhookInput.class);
+        when(paymentWebhookInput.status()).thenReturn(PAID);
+        useCase.process(paymentId, paymentWebhookInput);
+        verify(order).goToNextStep();
+        verify(orderGateway).changeStatus(order);
+    }
+
+    @Test
+    void should_go_to_failed_when_payment_is_failed() {
+        String paymentId = UUID.randomUUID().toString();
+        Order order = mock(Order.class);
+        when(orderGateway.findByPaymentId(paymentId)).thenReturn(Optional.of(order));
+        when(paymentGateway.findById(paymentId)).thenReturn(Optional.of(mock(Payment.class)));
+        PaymentWebhookInput paymentWebhookInput = mock(PaymentWebhookInput.class);
+        when(paymentWebhookInput.status()).thenReturn(FAILED);
+        useCase.process(paymentId, paymentWebhookInput);
+        verify(order).failed();
+        verify(orderGateway).changeStatus(order);
     }
 }

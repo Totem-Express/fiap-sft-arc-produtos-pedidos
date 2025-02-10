@@ -46,9 +46,10 @@ public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
 
         final var domain = orderInput.toDomain(orderItemsDomain, userGateway);
 
-        final var created = orderGateway.create(domain);
-        Payment payment = paymentGateway.create(created);
+        Payment payment = paymentGateway.create(domain);
         domain.setPayment(payment.getId());
+        final var created = orderGateway.create(domain);
+
         return new OrderView(created);
     }
 
