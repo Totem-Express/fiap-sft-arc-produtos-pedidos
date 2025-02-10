@@ -50,6 +50,7 @@ jobs:
         fail-if-coverage-less-than: '80'
         fail-if-branches-less-than: '80'
 
+
     - name: Log coverage percentages to workflow output
       run: |
         echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
