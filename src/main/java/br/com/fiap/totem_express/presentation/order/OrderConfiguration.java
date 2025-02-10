@@ -8,7 +8,6 @@ import br.com.fiap.totem_express.application.order.impl.CreateOrderUseCaseImpl;
 import br.com.fiap.totem_express.application.order.impl.ListOrderUseCaseImpl;
 import br.com.fiap.totem_express.application.order.impl.UpdateOrderStatusUseCaseImpl;
 import br.com.fiap.totem_express.application.payment.PaymentGateway;
-import br.com.fiap.totem_express.application.payment.PaymentProcessorGateway;
 import br.com.fiap.totem_express.application.product.ProductGateway;
 import br.com.fiap.totem_express.application.user.UserGateway;
 import br.com.fiap.totem_express.infrastructure.order.OrderGatewayImpl;
@@ -37,8 +36,8 @@ public class OrderConfiguration {
     }
 
     @Bean
-    public CreateOrderUseCase createOrderUseCase(ProductGateway productGateway, UserGateway userGateway, PaymentProcessorGateway paymentProcessorGateway) {
-        return new CreateOrderUseCaseImpl(orderGateway(), productGateway, userGateway, paymentProcessorGateway);
+    public CreateOrderUseCase createOrderUseCase(ProductGateway productGateway, UserGateway userGateway, PaymentGateway paymentGateway) {
+        return new CreateOrderUseCaseImpl(orderGateway(), productGateway, userGateway, paymentGateway);
     }
     
     @Bean

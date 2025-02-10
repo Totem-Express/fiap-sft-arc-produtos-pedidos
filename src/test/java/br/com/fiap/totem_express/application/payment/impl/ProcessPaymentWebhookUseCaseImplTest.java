@@ -1,5 +1,6 @@
 package br.com.fiap.totem_express.application.payment.impl;
 
+import br.com.fiap.totem_express.application.order.OrderGateway;
 import br.com.fiap.totem_express.application.payment.PaymentGateway;
 import br.com.fiap.totem_express.application.payment.input.PaymentWebhookInput;
 import br.com.fiap.totem_express.domain.payment.Payment;
@@ -20,14 +21,16 @@ import static org.mockito.Mockito.when;
 
 class ProcessPaymentWebhookUseCaseImplTest {
 
-    private PaymentGateway gateway;
+    private PaymentGateway paymentGateway;
 
     private ProcessPaymentWebhookUseCaseImpl useCase;
+    private OrderGateway orderGateway;
 
     @BeforeEach
     void setUp() {
-        gateway = mock(PaymentGateway.class);
-        useCase = new ProcessPaymentWebhookUseCaseImpl(gateway);
+        paymentGateway = mock(PaymentGateway.class);
+        orderGateway = mock(OrderGateway.class);
+        useCase = new ProcessPaymentWebhookUseCaseImpl(orderGateway, paymentGateway);
     }
 
     @Test
@@ -42,7 +45,7 @@ class ProcessPaymentWebhookUseCaseImplTest {
                 new BigDecimal("100.00"),
                 "QRCode123");
 
-        when(gateway.findById(paymentId)).thenReturn(Optional.of(payment));
+        when(paymentGateway.findById(paymentId)).thenReturn(Optional.of(payment));
 
         PaymentWebhookInput input = new PaymentWebhookRequest(paymentId, PAID);
 
@@ -56,7 +59,7 @@ class ProcessPaymentWebhookUseCaseImplTest {
         String paymentId = UUID.randomUUID().toString();
         PaymentWebhookInput input = new PaymentWebhookRequest(paymentId, PENDING);
 
-        when(gateway.findById(paymentId)).thenReturn(Optional.empty());
+        when(paymentGateway.findById(paymentId)).thenReturn(Optional.empty());
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 useCase.process(paymentId, input)

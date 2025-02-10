@@ -1,24 +1,35 @@
 package br.com.fiap.totem_express.application.payment.impl;
 
+import br.com.fiap.totem_express.application.order.OrderGateway;
 import br.com.fiap.totem_express.application.payment.PaymentGateway;
 import br.com.fiap.totem_express.application.payment.ProcessPaymentWebhookUseCase;
 import br.com.fiap.totem_express.application.payment.input.PaymentWebhookInput;
-import br.com.fiap.totem_express.domain.payment.Payment;
+import br.com.fiap.totem_express.domain.order.Order;
+import br.com.fiap.totem_express.shared.invariant.InvariantException;
 
 public class ProcessPaymentWebhookUseCaseImpl implements ProcessPaymentWebhookUseCase {
 
-    private final PaymentGateway gateway;
+    private final OrderGateway orderGateway;
+    private final PaymentGateway paymentGateway;
 
-    public ProcessPaymentWebhookUseCaseImpl(PaymentGateway gateway) {
-        this.gateway = gateway;
+    public ProcessPaymentWebhookUseCaseImpl(OrderGateway gateway, PaymentGateway paymentGateway) {
+        this.orderGateway = gateway;
+        this.paymentGateway = paymentGateway;
     }
 
     @Override
     public void process(String paymentId, PaymentWebhookInput input) {
-        Payment payment = gateway.findById(paymentId)
-                .orElseThrow(() -> new IllegalArgumentException("Payment must exists invalid id " + paymentId));
+        Order order = orderGateway.findByPaymentId(paymentId).orElseThrow(() ->new InvariantException("Order not found"));
+        paymentGateway.findById(paymentId).orElseThrow(() ->new InvariantException("Payment not found in gateway"));
 
-        payment.processPayment(input.status());
-        gateway.create(payment);
+        switch (input.status()){
+            case PENDING -> {
+            }
+            case PAID -> order.goToNextStep();
+            case FAILED -> order.failed();
+        }
+        orderGateway.changeStatus(order);
+
+
     }
 }

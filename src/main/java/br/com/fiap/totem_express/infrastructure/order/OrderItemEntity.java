@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-//TODO: teste
 @Entity(name = "order_item")
 public class OrderItemEntity {
 
