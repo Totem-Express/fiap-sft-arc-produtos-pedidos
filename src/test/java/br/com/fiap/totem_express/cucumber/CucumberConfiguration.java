@@ -8,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
 
-//@Import(TestcontainersConfiguration.class)
-//@CucumberContextConfiguration
-//@SpringBootTest
-//@AutoConfigureMockMvc
-//@AutoConfigureJsonTesters
+@Import(TestcontainersConfiguration.class)
+@CucumberContextConfiguration
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureJsonTesters
 public class CucumberConfiguration {
 }
