@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: totem-express-user-service
+  name: totem-express-order-product-service
   labels:
-    app: totem-express-user-service
+    app: totem-express-order-product-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: totem-express-user-service
+      app: totem-express-order-product-service
   template:
     metadata:
       labels:
-        app: totem-express-user-service
+        app: totem-express-order-product-service
     spec              :
       containers:
-        - name: totem-express-user-service
+        - name: totem-express-order-product-service
           image: DOCKER_IMAGE
           imagePullPolicy: IfNotPresent
           ports:
@@ -23,9 +23,9 @@ spec:
               protocol: TCP
           envFrom:
             - secretRef:
-                name: totem-express-user-service
+                name: totem-express-order-product-service
             - configMapRef:
-                name: totem-express-user-service
+                name: totem-express-order-product-service
           resources:
             requests:
               cpu: 1000m

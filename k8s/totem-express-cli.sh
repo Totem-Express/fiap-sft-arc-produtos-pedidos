@@ -24,17 +24,13 @@ function mk_copy_image(){
 }
 ### K8S helpers
 K8S_NAMESPACE="totem-express"
-K8S_DEPLOYMENT_IMAGE_NAME="library/totem-express:latest"
+K8S_DEPLOYMENT_IMAGE_NAME="library/totem-express-order-product:latest"
 
 ### APPLICATION HELPERS
 RESOURCE_FILES=("totem-express-configmap.yaml"
   "totem-express-svc.yaml"
   "totem-express-secret.yaml"
   "totem-express-deployment.yaml"
-  "totem-express-db-configmap.yaml"
-  "totem-express-db-svc.yaml"
-  "totem-express-db-secret.yaml"
-  "totem-express-db-deployment.yaml"
   "totem-express-hpa.yaml")
 
 function is_minikube_running() {
