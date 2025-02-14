@@ -44,8 +44,9 @@ jobs:
       uses: cicirello/jacoco-badge-generator@v2
       with:
         badges-directory: badges
-        generate-branches-badge: true
-        generate-summary: true
+        generate-coverage-badge: 'true'
+        generate-branches-badge: 'true'
+        generate-summary: 'true'
         on-missing-report: 'fail'
         fail-if-coverage-less-than: '80'
         fail-if-branches-less-than: '80'
