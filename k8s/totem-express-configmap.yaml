@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: totem-express-order-product-service-configmap
 data:
-  SPRING_DATASOURCE_URL: "jdbc:mysql://totem-express-produtos-pedidos.ct4egkeoywlc.us-east-1.rds.amazonaws.com/totemexpress?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull&useSSL=false"
+  SPRING_DATASOURCE_URL: "jdbc:mysql://totem-express-produtos-pedidos.c5qgznzto7o3.us-east-1.rds.amazonaws.com/totemexpress?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull&useSSL=false"
