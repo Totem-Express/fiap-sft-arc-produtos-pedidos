@@ -10,4 +10,6 @@ public interface OrderGateway {
     Optional<Order> findById(Long id);
     Order create(Order domain);
     void changeStatus(Order current);
+
+    Optional<Order> findByPaymentId(String paymentId);
 }

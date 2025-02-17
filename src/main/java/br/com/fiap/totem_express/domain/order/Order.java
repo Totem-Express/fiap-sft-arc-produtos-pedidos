@@ -115,4 +115,8 @@ public class Order {
         this.items = orderItems;
         setTotal(items);
     }
+
+    public void failed() {
+        status = Status.FINISHED;
+    }
 }

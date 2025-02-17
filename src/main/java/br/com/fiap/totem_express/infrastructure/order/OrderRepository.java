@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
@@ -34,4 +35,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     @Transactional
     @Query("UPDATE orders order SET order.status = :#{#order.status} WHERE order.id = :#{#order.id}")
     void updateStatus(Order order);
+
+    Optional<Order> findByPayment(String paymentId);
 }

@@ -23,6 +23,11 @@ public class OrderGatewayImpl implements OrderGateway {
     }
 
     @Override
+    public Optional<Order> findByPaymentId(String paymentId) {
+        return orderRepository.findByPayment(paymentId);
+    }
+
+    @Override
     public Optional<Order> findById(Long id) {
         return orderRepository.findById(id).map(OrderEntity::toDomain);
     }

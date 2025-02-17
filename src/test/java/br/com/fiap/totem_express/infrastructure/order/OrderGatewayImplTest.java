@@ -106,4 +106,7 @@ class OrderGatewayImplTest {
         verify(orderRepository).save(any(OrderEntity.class));
     }
 
+    @Test
+    void findById() {
+    }
 }
