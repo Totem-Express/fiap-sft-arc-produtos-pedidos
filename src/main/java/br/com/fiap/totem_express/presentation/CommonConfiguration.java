@@ -34,7 +34,6 @@ public class CommonConfiguration {
 
         objectMapper.registerModule(module);
         objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.findAndRegisterModules();
         return objectMapper;
     }

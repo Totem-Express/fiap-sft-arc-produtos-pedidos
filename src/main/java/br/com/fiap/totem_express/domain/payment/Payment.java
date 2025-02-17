@@ -18,7 +18,8 @@ public class Payment {
     private BigDecimal amount;
     private String qrCode;
 
-    public Payment(String id, LocalDateTime createdAt, LocalDateTime updatedAt, Status status, String transactionId, BigDecimal amount, String qrCode) {
+    public Payment(String id, LocalDateTime createdAt, LocalDateTime updatedAt, Status status, String transactionId,
+            BigDecimal amount, String qrCode) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
