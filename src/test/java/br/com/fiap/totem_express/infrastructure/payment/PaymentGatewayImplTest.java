@@ -36,11 +36,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
-@MockBeans({@MockBean(OrderRepository.class), @MockBean(ProductRepository.class), @MockBean(UserGateway.class)})
-@RestClientTest({PaymentGatewayImpl.class, CommonConfiguration.class, PaymentConfiguration.class, OrderConfiguration.class, ProductConfiguration.class, UserConfiguration.class})
+@MockBeans({ @MockBean(OrderRepository.class), @MockBean(ProductRepository.class), @MockBean(UserGateway.class) })
+@RestClientTest({ PaymentGatewayImpl.class, CommonConfiguration.class, PaymentConfiguration.class,
+        OrderConfiguration.class, ProductConfiguration.class, UserConfiguration.class })
 class PaymentGatewayImplTest {
 
     @Autowired
@@ -52,15 +54,13 @@ class PaymentGatewayImplTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
     @Test
     void should_find_payment_by_id() throws JsonProcessingException {
         String uuid = UUID.randomUUID().toString();
         LocalDateTime createdAt = LocalDateTime.now();
-        Payment payment = new Payment(uuid, createdAt,  createdAt, Status.PENDING, uuid, new BigDecimal("100.00"), uuid);
-        mockServer.expect(requestTo("http://localhost:8083/api/id/"+uuid))
+        Payment payment = new Payment(uuid, createdAt, createdAt, Status.PENDING, uuid, new BigDecimal("100.00"), uuid);
+        mockServer.expect(requestTo("http://localhost:8083/api/id/" + uuid))
                 .andRespond(withSuccess(objectMapper.writeValueAsString(payment), MediaType.APPLICATION_JSON));
-
 
         Optional<Payment> possiblePayment = paymentGateway.findById(uuid);
         assertThat(possiblePayment).isPresent();
@@ -77,7 +77,7 @@ class PaymentGatewayImplTest {
     @Test
     void should_return_optional_empty_if_error_is_not_found() {
         String uuid = UUID.randomUUID().toString();
-        mockServer.expect(requestTo("http://localhost:8083/api/id/"+uuid)).andRespond(withResourceNotFound());
+        mockServer.expect(requestTo("http://localhost:8083/api/id/" + uuid)).andRespond(withResourceNotFound());
         Optional<Payment> possiblePayment = paymentGateway.findById(uuid);
         assertThat(possiblePayment).isEmpty();
     }
@@ -94,10 +94,11 @@ class PaymentGatewayImplTest {
     void should_return_the_created_payment() throws JsonProcessingException {
         LocalDateTime createdAt = LocalDateTime.now();
         String uuid = UUID.randomUUID().toString();
-        Payment payment = new Payment(uuid, createdAt,  createdAt, Status.PENDING, uuid, new BigDecimal("100.00"), uuid);
+        Payment payment = new Payment(uuid, createdAt, createdAt, Status.PENDING, uuid, new BigDecimal("100.00"), uuid);
         mockServer.expect(requestTo("http://localhost:8083/api/create"))
                 .andRespond(withSuccess(objectMapper.writeValueAsString(payment), MediaType.APPLICATION_JSON));
         Order order = mock(Order.class);
+        when(order.getTotal()).thenReturn(new BigDecimal("100.00"));
         Payment returnedPayment = paymentGateway.create(order);
 
         assertThat(returnedPayment.getId()).isEqualTo(uuid);
