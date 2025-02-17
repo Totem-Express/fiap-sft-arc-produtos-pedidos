@@ -23,9 +23,9 @@ spec:
               protocol: TCP
           envFrom:
             - secretRef:
-                name: totem-express-order-product-service
+                name: totem-express-order-product-service-secret
             - configMapRef:
-                name: totem-express-order-product-service
+                name: totem-express-order-product-service-configmap
           resources:
             requests:
               cpu: 1000m
