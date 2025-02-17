@@ -82,13 +82,13 @@ Para utilizar o "**Totem Express**" siga os seguintes comandos:
 1) Faça o download do repositório
 
 ```shell
-git clone https://github.com/Totem-Express/software-architecture-fiap.git
+git clone https://github.com/Totem-Express/fiap-sft-arc-produtos-pedidos.git
 ```
 
 2) Entre no projeto
 
 ```shell
-cd software-architecture-fiap/
+cd fiap-sft-arc-produtos-pedidos/
 ```
 
 3) Com o [`Docker`](https://docs.docker.com/desktop/) instalado em sua máquina execute o seguinte comando
