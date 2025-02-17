@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: totem-express-order-product-service-svc
+spec:
+  selector:
+    app: totem-express-order-product-service
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30000
+  type: LoadBalancer
