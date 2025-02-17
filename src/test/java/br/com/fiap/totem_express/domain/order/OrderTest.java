@@ -65,14 +65,13 @@ public class OrderTest {
         OrderItem item = mock(OrderItem.class);
         when(item.getTotal()).thenReturn(BigDecimal.valueOf(100.00));
         items.add(item);
-        User user = new User("John", "john@example.com", "235.540.770-38");
 
-        Order order = new Order(createdAt, updatedAt, items, user);
+        Order order = new Order(createdAt, updatedAt, items, "user");
 
         assertThat(order.getCreatedAt()).isEqualTo(createdAt);
         assertThat(order.getUpdatedAt()).isEqualTo(updatedAt);
         assertThat(order.getItems()).containsExactlyElementsOf(items);
-        assertThat(order.getPossibleUser()).contains(user);
+        assertThat(order.getPossibleUser()).contains("user");
     }
 
     @Test
@@ -171,8 +170,7 @@ public class OrderTest {
 
         Order order = new Order(LocalDateTime.now(), LocalDateTime.now(), items, null);
         assertThat(order.getPayment()).isNull();
-        Payment payment = new Payment(BigDecimal.valueOf(100.00));
-        order.setPayment(payment);
-        assertThat(order.getPayment()).isEqualTo(payment);
+        order.setPayment("payment");
+        assertThat(order.getPayment()).isEqualTo("payment");
     }
 }

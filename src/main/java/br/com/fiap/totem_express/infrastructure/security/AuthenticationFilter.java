@@ -32,7 +32,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    private void authenticate(Long id){
+    private void authenticate(String id){
         final var user = repository.loadUserById(id);
         final var authentication = new UsernamePasswordAuthenticationToken(user,null, user.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);

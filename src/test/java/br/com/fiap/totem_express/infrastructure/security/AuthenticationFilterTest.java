@@ -16,6 +16,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -46,7 +47,7 @@ class AuthenticationFilterTest {
     @Test
     void should_authenticate_user_when_token_is_valid() throws ServletException, IOException {
         String token = "Bearer validToken";
-        Long userId = 1L;
+        String userId = UUID.randomUUID().toString();
         UserDetailsImpl userDetails = mock(UserDetailsImpl.class);
 
         request.addHeader("Authorization", token);
@@ -71,7 +72,7 @@ class AuthenticationFilterTest {
         authenticationFilter.doFilterInternal(request, response, filterChain);
 
         verify(jwtService).getUserFromToken("invalidToken");
-        verify(userDetailsService, never()).loadUserById(anyLong());
+        verify(userDetailsService, never()).loadUserById(anyString());
         assertThat(SecurityContextHolder.getContext().getAuthentication()).isNull();
         verify(filterChain).doFilter(request, response);
     }
@@ -81,7 +82,7 @@ class AuthenticationFilterTest {
         authenticationFilter.doFilterInternal(request, response, filterChain);
 
         verify(jwtService, never()).getUserFromToken(anyString());
-        verify(userDetailsService, never()).loadUserById(anyLong());
+        verify(userDetailsService, never()).loadUserById(anyString());
         assertThat(SecurityContextHolder.getContext().getAuthentication()).isNull();
         verify(filterChain).doFilter(request, response);
     }

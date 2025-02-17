@@ -15,9 +15,9 @@ public class RetrieveUserUseCaseImpl implements RetrieveUserUseCase {
     }
 
     @Override
-    public Optional<DefaultUserView> execute(String cpf) {
+    public Optional<DefaultUserView> execute(String id) {
         return gateway
-                .findByCPF(cpf)
+                .findById(id)
                 .map(user -> new DefaultUserView(user.getId(), user.getName()));
     }
 }

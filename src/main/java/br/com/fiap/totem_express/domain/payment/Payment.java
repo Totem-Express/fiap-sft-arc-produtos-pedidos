@@ -10,7 +10,7 @@ import static br.com.fiap.totem_express.shared.invariant.Rule.notNull;
 
 public class Payment {
 
-    private Long id;
+    private String id;
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
     private Status status = Status.PENDING;
@@ -18,7 +18,7 @@ public class Payment {
     private BigDecimal amount;
     private String qrCode;
 
-    public Payment(Long id, LocalDateTime createdAt, LocalDateTime updatedAt, Status status, String transactionId, BigDecimal amount, String qrCode) {
+    public Payment(String id, LocalDateTime createdAt, LocalDateTime updatedAt, Status status, String transactionId, BigDecimal amount, String qrCode) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -34,7 +34,7 @@ public class Payment {
         this.transactionId = UUID.randomUUID().toString();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

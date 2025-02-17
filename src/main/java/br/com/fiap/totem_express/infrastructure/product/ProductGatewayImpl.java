@@ -1,12 +1,12 @@
 package br.com.fiap.totem_express.infrastructure.product;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
 import br.com.fiap.totem_express.application.product.ProductGateway;
 import br.com.fiap.totem_express.domain.product.Category;
 import br.com.fiap.totem_express.domain.product.Product;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class ProductGatewayImpl implements ProductGateway {
 

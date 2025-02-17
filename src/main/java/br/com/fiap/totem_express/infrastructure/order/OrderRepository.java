@@ -1,11 +1,15 @@
 package br.com.fiap.totem_express.infrastructure.order;
 
 import br.com.fiap.totem_express.domain.order.Order;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
@@ -31,4 +35,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     @Transactional
     @Query("UPDATE orders order SET order.status = :#{#order.status} WHERE order.id = :#{#order.id}")
     void updateStatus(Order order);
+
+    Optional<Order> findByPayment(String paymentId);
 }

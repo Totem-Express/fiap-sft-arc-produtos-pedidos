@@ -1,0 +1,449 @@
+{
+  "info": {
+    "_postman_id": "ea21be43-fd1f-4b36-ab15-c5c55f2dc391",
+    "name": "Totem Express",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+    "_exporter_id": "39002067"
+  },
+  "item": [
+    {
+      "name": "Cria prato principal",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Cheddar McMelt\",\n    \"price\": 23.75,\n    \"category\": \"DISH\",\n    \"description\": \"Um hambúrguer (100% carne bovina), molho lácteo com queijo tipo cheddar, cebola ao molho shoyu e pão escuro com gergelim.\",\n    \"imagePath\": \"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kzXv7hw4/200/200/original?country=br\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{system_base_url}}/api/product"
+      },
+      "response": []
+    },
+    {
+      "name": "Cria bebida",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Coca-Cola 500ml\",\n    \"price\": 15,\n    \"category\": \"DRINK\",\n    \"description\": \"Refrescante e geladinha. Uma bebida assim refresca a vida. Você pode escolher entre Coca-Cola, Coca-Cola Zero, Sprite sem Açúcar, Fanta Guaraná e Fanta Laranja.\",\n    \"imagePath\": \"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kNXBvqQj/200/200/original?country=br\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{system_base_url}}/api/product"
+      },
+      "response": []
+    },
+    {
+      "name": "Cria acompanhamento",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"McFritas Grande\",\n    \"price\": 12.50,\n    \"category\": \"SIDE_DISH\",\n    \"description\": \"A batata frita mais famosa do mundo. Deliciosas batatas selecionadas, fritas, crocantes por fora, macias por dentro.\",\n    \"imagePath\": \"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kUXVg4F7/200/200/original?country=br\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{system_base_url}}/api/product"
+      },
+      "response": []
+    },
+    {
+      "name": "Cria sobremesa",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"McShake Ovomaltine\",\n    \"price\": 15,\n    \"category\": \"DESSERT\",\n    \"description\": \"Deliciosamente cremoso. O novo McShake Ovomaltine é feito com leite e batido na hora. Uma delícia!\",\n    \"imagePath\": \"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kJX0TX33/200/200/original?country=br\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{system_base_url}}/api/product"
+      },
+      "response": []
+    },
+    {
+      "name": "Atualiza prato principal",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": 1,\n    \"name\": \"Cheddar McMelt\",\n    \"price\": 19.99,\n    \"category\": \"DISH\",\n    \"description\": \"Um hambúrguer (95% carne bovina), molho lácteo com queijo tipo cheddar, cebola ao molho shoyu e pão escuro com gergelim.\",\n    \"imagePath\": \"https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kzXv7hw4/200/200/original?country=br\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{system_base_url}}/api/product"
+      },
+      "response": []
+    },
+    {
+      "name": "Traz produtos por categoria",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{system_base_url}}/api/product/{{category}}"
+      },
+      "response": [
+        {
+          "name": "Traz bebidas",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "{{system_base_url}}/api/product/DRINK"
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 14 Oct 2024 15:10:40 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "Traz pratos principais",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "{{system_base_url}}/api/product/DISH"
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 14 Oct 2024 15:10:40 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "Traz sobremesas",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "{{system_base_url}}/api/product/DESSERT"
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 14 Oct 2024 15:10:40 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": null
+        },
+        {
+          "name": "Traz acompanhamentos",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "{{system_base_url}}/api/product/SIDE_DISH"
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "plain",
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 14 Oct 2024 15:10:40 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": null
+        }
+      ]
+    },
+    {
+      "name": "Deleta produto",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{system_base_url}}/api/product/{{product_id_for_deletion}}"
+      },
+      "response": []
+    },
+    {
+      "name": "Cria pedido",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"orderItemsRequest\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 1\n    },\n    {\n      \"productId\": 2,\n      \"quantity\": 2\n    },\n    {\n      \"productId\": 3,\n      \"quantity\": 1\n    }\n  ],\n  \"possibleUserId\": null\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{system_base_url}}/api/order/create"
+      },
+      "response": []
+    },
+    {
+      "name": "Atualiza status do pedido para próximo estado",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{system_base_url}}/api/order/{{order_id_to_have_status_updated}}/next"
+      },
+      "response": [
+        {
+          "name": "Atualiza status do pedido para próximo estado",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "{{system_base_url}}/api/order/1/next"
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Vary",
+              "value": "Origin"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Method"
+            },
+            {
+              "key": "Vary",
+              "value": "Access-Control-Request-Headers"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Transfer-Encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Date",
+              "value": "Mon, 14 Oct 2024 17:20:49 GMT"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=60"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"timestamp\": \"2024-10-14T17:20:49.036+00:00\",\n    \"status\": 404,\n    \"error\": \"Not Found\",\n    \"trace\": \"org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/order/%7B%7Bid%7D%7D/create.\\n\\tat org.springframework.web.servlet.resource.ResourceHttpRequestHandler.handleRequest(ResourceHttpRequestHandler.java:585)\\n\\tat org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter.handle(HttpRequestHandlerAdapter.java:52)\\n\\tat org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)\\n\\tat org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)\\n\\tat org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)\\n\\tat org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)\\n\\tat jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)\\n\\tat org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)\\n\\tat jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)\\n\\tat org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)\\n\\tat org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\\n\\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)\\n\\tat org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\\n\\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)\\n\\tat org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113)\\n\\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)\\n\\tat org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)\\n\\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)\\n\\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)\\n\\tat org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)\\n\\tat org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)\\n\\tat org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)\\n\\tat org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)\\n\\tat org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)\\n\\tat org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)\\n\\tat org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)\\n\\tat org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:384)\\n\\tat org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\\n\\tat org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:905)\\n\\tat org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)\\n\\tat org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\\n\\tat org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190)\\n\\tat org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)\\n\\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)\\n\\tat java.base/java.lang.Thread.run(Thread.java:1570)\\n\",\n    \"message\": \"No static resource api/order/%7B%7Bid%7D%7D/create.\",\n    \"path\": \"/api/order/%7B%7Bid%7D%7D/create\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Lista pedidos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{system_base_url}}/api/order/list"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "category",
+      "value": "DISH"
+    },
+    {
+      "key": "product_id_for_deletion",
+      "value": "4"
+    },
+    {
+      "key": "order_id_to_have_status_updated",
+      "value": "1"
+    },
+    {
+      "key": "payment_id_to_be_processed",
+      "value": "1"
+    },
+    {
+      "key": "system_base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "payment_id_to_be_queried",
+      "value": "1"
+    },
+    {
+      "key": "user_cpf_to_be_queried",
+      "value": "101.424.800-02",
+      "type": "string"
+    }
+  ]
+}

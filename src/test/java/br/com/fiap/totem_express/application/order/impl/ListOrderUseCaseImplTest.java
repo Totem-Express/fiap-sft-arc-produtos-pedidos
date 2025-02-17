@@ -53,26 +53,15 @@ class ListOrderUseCaseImplTest {
     }
 
     private Order createOrder(Long id, Status status) {
-        var user = new User("Jack Dawson", "jackdawson@outlook.com", "114.974.750-15", USER);
-
-        var payment = new Payment(
-                1L,
-                LocalDateTime.now(),
-                LocalDateTime.now(),
-                PENDING,
-                "TXN123",
-                new BigDecimal("99.99"),
-                "QRCode123"
-        );
 
         return new Order(
                 id,
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 new BigDecimal("20.00"),
-                user,
+                "user",
                 status,
-                payment
+                "payment"
         );
     }
 }

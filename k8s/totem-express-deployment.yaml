@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: totem-express-order-product-service
+  labels:
+    app: totem-express-order-product-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: totem-express-order-product-service
+  template:
+    metadata:
+      labels:
+        app: totem-express-order-product-service
+    spec              :
+      containers:
+        - name: totem-express-order-product-service
+          image: DOCKER_IMAGE
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: totem-express-order-product-service-secret
+            - configMapRef:
+                name: totem-express-order-product-service-configmap
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 2Gi
+            limits:
+              cpu: 1000m
+              memory: 3Gi
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            timeoutSeconds: 1
+            failureThreshold: 20
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            timeoutSeconds: 1
+            failureThreshold: 20

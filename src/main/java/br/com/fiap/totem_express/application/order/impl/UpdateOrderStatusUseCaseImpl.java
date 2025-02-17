@@ -5,6 +5,8 @@ import br.com.fiap.totem_express.application.order.UpdateOrderStatusUseCase;
 import br.com.fiap.totem_express.application.order.output.OrderView;
 import br.com.fiap.totem_express.shared.invariant.InvariantException;
 
+import java.util.Optional;
+
 public class UpdateOrderStatusUseCaseImpl implements UpdateOrderStatusUseCase {
 
     private final OrderGateway gateway;
@@ -22,6 +24,6 @@ public class UpdateOrderStatusUseCaseImpl implements UpdateOrderStatusUseCase {
         order.goToNextStep();
         gateway.changeStatus(order);
 
-        return new OrderView(order);
+        return new OrderView(order, Optional.empty());
     }
 }

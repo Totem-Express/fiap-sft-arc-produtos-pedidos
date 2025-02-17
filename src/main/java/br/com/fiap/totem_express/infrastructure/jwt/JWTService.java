@@ -17,10 +17,10 @@ public class JWTService {
         ALGORITHM = Algorithm.HMAC256(secret);
     }
 
-    public Optional<Long> getUserFromToken(String token){
+    public Optional<String> getUserFromToken(String token){
         try {
             final var jwt = JWT.require(ALGORITHM).build().verify(token);
-            final var user = jwt.getClaim("user").asLong();
+            final var user = jwt.getClaim("user").asString();
 
             return Optional.ofNullable(user);
         }

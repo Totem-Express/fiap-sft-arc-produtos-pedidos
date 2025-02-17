@@ -11,7 +11,7 @@ import org.springframework.validation.Validator;
 
 import java.util.stream.Collectors;
 
-//TODO: teste
+
 @Component
 public class CreateOrderValidator implements Validator {
 
@@ -34,22 +34,22 @@ public class CreateOrderValidator implements Validator {
 
         final var current = (CreateOrderRequest) target;
 
-        final var order = current
+        final var orderItems = current
                 .orderItemsRequest()
                 .stream()
                 .map(OrderItemRequest::productId)
                 .collect(Collectors.toSet());
 
         final var products = productGateway
-                .findAllByIds(order)
+                .findAllByIds(orderItems)
                 .stream()
                 .map(Product::getId)
                 .collect(Collectors.toSet());
 
-        order.removeAll(products);
+        orderItems.removeAll(products);
 
-        if (!order.isEmpty()){
-            final var missing = order
+        if (!orderItems.isEmpty()){
+            final var missing = orderItems
                     .stream()
                     .map(Object::toString)
                     .collect(Collectors.joining(","));

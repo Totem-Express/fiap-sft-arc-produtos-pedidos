@@ -1,84 +1,86 @@
 package br.com.fiap.totem_express.infrastructure.user;
 
+import br.com.fiap.totem_express.application.user.UserGateway;
+import br.com.fiap.totem_express.domain.user.Role;
 import br.com.fiap.totem_express.domain.user.User;
-import org.junit.jupiter.api.BeforeEach;
+import br.com.fiap.totem_express.presentation.CommonConfiguration;
+import br.com.fiap.totem_express.presentation.user.UserConfiguration;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.client.MockRestServiceServer;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-import static br.com.fiap.totem_express.domain.user.Role.ADMIN;
-import static br.com.fiap.totem_express.domain.user.Role.USER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
 
+
+@RestClientTest({UserGatewayImpl.class, CommonConfiguration.class, UserConfiguration.class})
 class UserGatewayImplTest {
 
-    private UserRepository repository;
-    private UserGatewayImpl userGateway;
+    @Autowired
+    private UserGateway userGateway;
 
-    @BeforeEach
-    void setUp() {
-        repository = mock(UserRepository.class);
-        userGateway = new UserGatewayImpl(repository);
-    }
+    @Autowired
+    MockRestServiceServer mockServer;
 
-    @Test
-    void should_create_user() {
-        User user = new User(1L, "Brad Pitt", "bradpitt@email.com", "114.974.750-15", LocalDateTime.now(), ADMIN);
-        UserEntity userEntity = new UserEntity(user);
-        when(repository.save(any(UserEntity.class))).thenReturn(userEntity);
+    @Autowired
+    private ObjectMapper objectMapper;
 
-        User createdUser = userGateway.create(user);
-
-        assertThat(createdUser.getName()).isEqualTo(user.getName());
-    }
-
-    @Test
-    void should_find_all_users() {
-        UserEntity userEntity1 = new UserEntity(new User(1L, "Brad Pitt", "bradpitt@email.com", "114.974.750-15", LocalDateTime.now(), USER));
-        UserEntity userEntity2 = new UserEntity(new User(2L, "Angelina Jolie", "angelina@email.com", "936.038.500-09", LocalDateTime.now(), ADMIN));
-        when(repository.findAll()).thenReturn(List.of(userEntity1, userEntity2));
-
-        List<User> users = userGateway.findAll();
-        assertThat(users).size().isEqualTo(2);
-    }
 
     @Test
     void should_check_if_user_exists_by_id() {
-        when(repository.existsById(1L)).thenReturn(true);
-
-        boolean exists = userGateway.existsById(1L);
-
+        String uuid = UUID.randomUUID().toString();
+        mockServer.expect(requestTo("http://localhost:8082/api/"+uuid)).andRespond(withSuccess());
+        boolean exists = userGateway.existsById(uuid);
         assertThat(exists).isTrue();
     }
 
     @Test
-    void should_check_if_user_exists_by_email_or_cpf() {
-        when(repository.existsByEmailOrCpf("bradpitt@email.com", "114.974.750-15")).thenReturn(true);
-        boolean exists = userGateway.existsByEmailOrCPF("bradpitt@email.com", "114.974.750-15");
-
-        assertThat(exists).isTrue();
+    void should_return_false_if_user_does_not_exists() {
+        String uuid = UUID.randomUUID().toString();
+        mockServer.expect(requestTo("http://localhost:8082/api/"+uuid)).andRespond(withResourceNotFound());
+        boolean exists = userGateway.existsById(uuid);
+        assertThat(exists).isFalse();
     }
 
     @Test
-    void should_find_user_by_id() {
-        UserEntity userEntity = new UserEntity(new User(1L, "Brad Pitt", "bradpitt@email.com", "114.974.750-15", LocalDateTime.now(), USER));
-        when(repository.findById(1L)).thenReturn(Optional.of(userEntity));
-
-        Optional<User> user = userGateway.findById(1L);
-
-        assertThat(user.get().getName()).isEqualTo("Brad Pitt");
+    void should_throw_exception_for_any_other_status() {
+        String uuid = UUID.randomUUID().toString();
+        mockServer.expect(requestTo("http://localhost:8082/api/"+uuid)).andRespond(withBadGateway());
+        assertThatThrownBy(() -> userGateway.existsById(uuid)).isInstanceOfAny(RuntimeException.class).hasMessageContaining("Problem communicating with user service");
     }
 
     @Test
-    void should_find_user_by_cpf() {
-        UserEntity userEntity = new UserEntity(new User(1L, "Brad Pitt", "bradpitt@email.com", "114.974.750-15", LocalDateTime.now(), USER));
-        when(repository.findByCpf("114.974.750-15")).thenReturn(Optional.of(userEntity));
+    void should_return_user_by_id() throws JsonProcessingException {
+        String uuid = UUID.randomUUID().toString();
 
-        Optional<User> user = userGateway.findByCPF("114.974.750-15");
+        User user = new User(uuid, uuid, uuid + "@email.com", "792.291.040-19", LocalDateTime.now(), Role.ADMIN);
+        mockServer.expect(requestTo("http://localhost:8082/api/id/"+uuid))
+                .andRespond(withSuccess(objectMapper.writeValueAsString(user), MediaType.APPLICATION_JSON));
 
-        assertThat(user.get().getName()).isEqualTo("Brad Pitt");
+
+        Optional<User> possibleUser = userGateway.findById(uuid);
+        assertThat(possibleUser).isPresent();
+        User retrievedUser = possibleUser.get();
+        assertThat(retrievedUser.getId()).isEqualTo(uuid);
+        assertThat(retrievedUser.getEmail()).isEqualTo(user.getEmail());
+    }
+
+    @Test
+    void should_return_empty_if_user_not_exists() {
+        String notExistingId = UUID.randomUUID().toString();
+        mockServer.expect(requestTo("http://localhost:8082/api/id/"+notExistingId)).andRespond(withResourceNotFound());
+
+        Optional<User> possibleUser = userGateway.findById(notExistingId);
+        assertThat(possibleUser).isEmpty();
     }
 }

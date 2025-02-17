@@ -1,19 +1,14 @@
 package br.com.fiap.totem_express.presentation.product;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import br.com.fiap.totem_express.application.product.CreateProductUseCase;
-import br.com.fiap.totem_express.application.product.DeleteProductUseCase;
-import br.com.fiap.totem_express.application.product.FindProductsByCategoryUseCase;
-import br.com.fiap.totem_express.application.product.ProductGateway;
-import br.com.fiap.totem_express.application.product.UpdateProductUseCase;
+import br.com.fiap.totem_express.application.product.*;
 import br.com.fiap.totem_express.application.product.impl.CreateProductUseCaseImpl;
 import br.com.fiap.totem_express.application.product.impl.DeleteProductUseCaseImpl;
 import br.com.fiap.totem_express.application.product.impl.FindProductsByCategoryUseCaseImpl;
 import br.com.fiap.totem_express.application.product.impl.UpdateProductUseCaseImpl;
 import br.com.fiap.totem_express.infrastructure.product.ProductGatewayImpl;
 import br.com.fiap.totem_express.infrastructure.product.ProductRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ProductConfiguration {

@@ -1,25 +1,30 @@
 package br.com.fiap.totem_express.infrastructure.order;
 
-import br.com.fiap.totem_express.application.order.*;
-import br.com.fiap.totem_express.domain.order.*;
-import br.com.fiap.totem_express.infrastructure.payment.PaymentEntity;
-import br.com.fiap.totem_express.infrastructure.payment.PaymentRepository;
+import br.com.fiap.totem_express.application.order.OrderGateway;
+import br.com.fiap.totem_express.application.payment.PaymentGateway;
+import br.com.fiap.totem_express.domain.order.Order;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 public class OrderGatewayImpl implements OrderGateway {
 
     private final OrderRepository orderRepository;
-    private final PaymentRepository paymentRepository;
+    private final PaymentGateway paymentGateway;
 
-    public OrderGatewayImpl(OrderRepository orderRepository, PaymentRepository paymentRepository) {
+    public OrderGatewayImpl(OrderRepository orderRepository, PaymentGateway paymentGateway) {
         this.orderRepository = orderRepository;
-        this.paymentRepository = paymentRepository;
+        this.paymentGateway = paymentGateway;
     }
 
     @Override
     public void changeStatus(Order current) {
         orderRepository.updateStatus(current);
+    }
+
+    @Override
+    public Optional<Order> findByPaymentId(String paymentId) {
+        return orderRepository.findByPayment(paymentId);
     }
 
     @Override
@@ -38,10 +43,12 @@ public class OrderGatewayImpl implements OrderGateway {
     @Override
     public Order create(Order domain) {
         if (domain.getPayment() != null) {
-            PaymentEntity paymentEntity = new PaymentEntity(domain.getPayment());
-            paymentRepository.save(paymentEntity);
-            domain.setPayment(paymentEntity.toDomain());
+            if(paymentGateway.findById(domain.getPayment()).isEmpty()){
+                throw new IllegalArgumentException("Payment not found");
+            }
+            domain.setPayment(domain.getPayment());
         }
+        //TODO ver se user existe?
 
         OrderEntity savedOrderEntity = orderRepository.save(new OrderEntity(domain));
         Order savedOrderDomain = savedOrderEntity.toDomain();

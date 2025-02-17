@@ -2,19 +2,12 @@ package br.com.fiap.totem_express.application.user;
 
 import br.com.fiap.totem_express.domain.user.User;
 
-import java.util.*;
+import java.util.Optional;
 
 public interface UserGateway {
 
-    User create(User user);
+    boolean existsById(String id);
 
-    List<User> findAll();
+    Optional<User> findById(String id);
 
-    boolean existsById(Long id);
-
-    boolean existsByEmailOrCPF(String email, String cpf);
-
-    Optional<User> findById(Long id);
-
-    Optional<User> findByCPF(String cpf);
 }

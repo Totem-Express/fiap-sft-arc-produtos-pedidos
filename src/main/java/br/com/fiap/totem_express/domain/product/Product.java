@@ -1,10 +1,10 @@
 package br.com.fiap.totem_express.domain.product;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import br.com.fiap.totem_express.application.product.input.UpdateProductInput;
 import br.com.fiap.totem_express.shared.invariant.Invariant;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static br.com.fiap.totem_express.shared.invariant.Rule.*;
 
