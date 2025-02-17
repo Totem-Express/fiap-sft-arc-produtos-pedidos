@@ -63,7 +63,7 @@ public class CreateOrderValidator implements Validator {
         final var identifier = current.possibleUserId();
 
 
-        if (identifier.isPresent() && !userGateway.existsById(identifier.get())){
+        if (identifier != null && identifier.isPresent() && !userGateway.existsById(identifier.get())){
             errors.reject("invalid.order.user", "User with id %s not found".formatted(identifier.get()));
         }
     }

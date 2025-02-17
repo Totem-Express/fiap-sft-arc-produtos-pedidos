@@ -42,14 +42,6 @@ public class OrderGatewayImpl implements OrderGateway {
 
     @Override
     public Order create(Order domain) {
-        if (domain.getPayment() != null) {
-            if(paymentGateway.findById(domain.getPayment()).isEmpty()){
-                throw new IllegalArgumentException("Payment not found");
-            }
-            domain.setPayment(domain.getPayment());
-        }
-        //TODO ver se user existe?
-
         OrderEntity savedOrderEntity = orderRepository.save(new OrderEntity(domain));
         Order savedOrderDomain = savedOrderEntity.toDomain();
         savedOrderEntity.getItems().forEach(orderItemEntity -> {
